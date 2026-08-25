@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>¡Feliz Cumpleaños, Mamá!</title>
-  <!-- Librería para el efecto de confeti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <style>
     body {
@@ -20,22 +19,15 @@
       text-align: center;
     }
 
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
+    h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    p { font-size: 1.2rem; margin-top: 0; }
 
-    p {
-      font-size: 1.2rem;
-      margin-top: 0;
-    }
-
-    /* Escenario de la Torta */
+    /* Contenedor principal con altura fija */
     .stage {
       position: relative;
       width: 260px;
-      height: 260px;
-      margin: 20px auto;
+      height: 200px;
+      margin: 30px auto 10px auto;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -49,21 +41,24 @@
       background: #e0e0e0;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      z-index: 1;
     }
 
     /* Capas de la torta */
     .layer {
       width: 200px;
       height: 0;
-      background-color: #4e342e; /* Chocolate */
+      background-color: #4e342e;
       border-radius: 8px 8px 0 0;
       transition: height 1s ease-in-out;
       position: relative;
+      z-index: 2;
     }
 
     .layer-top {
       width: 180px;
-      background-color: #3e2723; /* Cobertura oscura */
+      background-color: #3e2723;
+      z-index: 3;
     }
 
     .frosting {
@@ -75,47 +70,47 @@
       transition: opacity 0.5s ease;
     }
 
-    /* Contenedor de Velas */
+    /* Velas en posición perfecta */
     .candles {
       display: flex;
       gap: 15px;
       position: absolute;
-      top: 25px;
+      bottom: 110px; /* Alineado exacto a la superficie final del pastel */
+      z-index: 4;
       opacity: 0;
       transition: opacity 0.5s ease;
     }
 
-    /* Velas */
     .candle {
       width: 12px;
-      height: 45px;
+      height: 40px;
       background: repeating-linear-gradient(45deg, #ff4081, #ff4081 5px, #ffffff 5px, #ffffff 10px);
       border-radius: 3px;
       position: relative;
       cursor: pointer;
     }
 
+    /* Llama integrada */
     .flame {
       width: 12px;
-      height: 18px;
+      height: 16px;
       background: #ffeb3b;
       border-radius: 50% 50% 20% 20%;
       position: absolute;
-      top: -18px;
+      top: -16px;
+      left: 0;
       box-shadow: 0 0 10px #ff9800;
       animation: flicker 0.6s infinite alternate;
     }
 
-    .flame.off {
-      display: none;
-    }
+    .flame.off { display: none; }
 
     @keyframes flicker {
       0% { transform: scale(1); opacity: 0.9; }
       100% { transform: scale(1.15); opacity: 1; }
     }
 
-    /* Botones */
+    /* Botón */
     .btn {
       background-color: #ec407a;
       color: white;
@@ -126,6 +121,7 @@
       cursor: pointer;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       transition: transform 0.2s, background-color 0.2s;
+      margin-top: 15px;
     }
 
     .btn:hover {
@@ -161,25 +157,21 @@
       const instruction = document.getElementById('instruction');
 
       if (step === 0) {
-        // Paso 1: Base de la torta
         document.getElementById('layer1').style.height = '50px';
         instruction.textContent = "Horneando la primera capa de chocolate...";
         btn.disabled = true;
         
         setTimeout(() => {
-          // Paso 2: Segunda capa y cobertura
           document.getElementById('layer2').style.height = '45px';
           document.getElementById('frosting').style.opacity = '1';
           instruction.textContent = "Agregando la cobertura y decorando...";
         }, 1200);
 
         setTimeout(() => {
-          // Paso 3: Colocar velas
           document.getElementById('candlesGroup').style.opacity = '1';
-          instruction.textContent = "¡Pedí un deseo y hace clic en las velas para apagarlas!";
+          instruction.textContent = "¡Pedí un deseo y hacé clic en las velas para apagarlas!";
           btn.style.display = 'none';
           
-          // Lanzar confeti inicial
           confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
         }, 2500);
       }
@@ -192,13 +184,11 @@
         flame.classList.add('off');
         litCandles--;
 
-        // Lanzar una ráfaga corta de confeti por cada vela apagada
         confetti({ particleCount: 30, spread: 50, origin: { y: 0.7 } });
 
         if (litCandles === 0) {
-          document.getElementById('instruction').textContent = "Listo! Mi único deseo es que me sigas aguantando muchos años más. Te quiero, ma 🥳";
+          document.getElementById('instruction').textContent = "listo! mi único deseo es que me sigas aguantando muchos años más,te quiero ma✨";
           
-          // Gran explosión de confeti final
           setTimeout(() => {
             var duration = 3 * 1000;
             var end = Date.now() + duration;
@@ -211,10 +201,6 @@
           }, 300);
         }
       }
-    }
-  </script>
-</body>
-</html>
     }
   </script>
 </body>
